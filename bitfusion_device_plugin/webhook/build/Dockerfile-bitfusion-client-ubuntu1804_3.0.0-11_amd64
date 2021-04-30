@@ -1,0 +1,13 @@
+# Copyright 2020 VMware, Inc.
+#
+# SPDX-License-Identifier: Apache-2.0
+
+FROM ubuntu:18.04
+
+RUN apt-get update && \
+apt-get install -y --no-install-recommends libcurl4-openssl-dev curl wget zlib1g-dev git pkg-config python3 python3-pip libjsoncpp-dev librdmacm-dev libcapstone-dev
+
+RUN cd /tmp && \
+    curl -fSslL -O https://packages.vmware.com/bitfusion/ubuntu/18.04/bitfusion-client-ubuntu1804_3.0.0-11_amd64.deb && \
+    apt-get install -y ./bitfusion-client-ubuntu1804_3.0.0-11_amd64.deb && \
+    rm -rf /tmp/*

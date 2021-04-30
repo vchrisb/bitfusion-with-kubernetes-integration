@@ -5,7 +5,7 @@ IMAGE_REPO ?= docker.io/bitfusiondeviceplugin
 DEVICE_IMAGE_NAME ?= bitfusion-device-plugin
 WEBHOOK_IMAGE_NAME ?= bitfusion-webhook
 PKG_IMAGE_NAME ?= bitfusion-client
-IMAGE_TAG  ?= 0.1
+IMAGE_TAG  ?= 0.2
 
 
 
@@ -44,13 +44,13 @@ endif
 
 image: build-image push-image
 
-build-image: 
+build-image:
 	@echo "Building the docker image: $(IMAGE_REPO)/$(DEVICE_IMAGE_NAME):$(IMAGE_TAG)..."
 	@docker build -t $(IMAGE_REPO)/$(DEVICE_IMAGE_NAME):$(IMAGE_TAG) -f device-plugin/build/Dockerfile .
 	@echo "Building the docker image: $(IMAGE_REPO)/$(WEBHOOK_IMAGE_NAME):$(IMAGE_TAG)..."
 	@docker build -t $(IMAGE_REPO)/$(WEBHOOK_IMAGE_NAME):$(IMAGE_TAG) -f webhook/build/Dockerfile .
 	@echo "Building the docker image: $(IMAGE_REPO)/$(PKG_IMAGE_NAME):$(IMAGE_TAG)..."
-	@docker build -t $(IMAGE_REPO)/$(PKG_IMAGE_NAME):$(IMAGE_TAG) -f webhook/build/Dockerfile-bitfusion-client-ubuntu1804_2.5.0-10_amd64 .
+	@docker build -t $(IMAGE_REPO)/$(PKG_IMAGE_NAME):$(IMAGE_TAG) -f webhook/build/Dockerfile-bitfusion-client-ubuntu1804_3.0.0-11_amd64 .
 
 push-image: build-image
 	@echo "Pushing the docker image for $(IMAGE_REPO)/$(DEVICE_IMAGE_NAME):$(IMAGE_TAG) ..."
@@ -64,7 +64,7 @@ push-image: build-image
 # deploy section
 ############################################################
 
-deploy: update create 
+deploy: update create
 
 update:
 	@echo "Create file $(DEVICE_PLUGIN_YAML_TO_DEPLOY) by $(DEVICE_PLUGIN_YAML_FILE): rewrite $(DEVICE_PLUGIN_ORIGINAL_NAME) to $(IMAGE_REPO)/$(DEVICE_IMAGE_NAME):$(IMAGE_TAG) ..."
